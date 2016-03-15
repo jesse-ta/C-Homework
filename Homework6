@@ -1,0 +1,155 @@
+// MyHomework4.cpp : Defines the entry point for the console application.
+//
+#include "stdafx.h"
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+double Total(double n1, double n2)
+{
+	double tax;
+	double subtotal;
+	tax = n1 * n2;
+	subtotal = n1 + tax;
+	return subtotal;
+}
+
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+
+	cout << fixed << setprecision(2); // sets 
+	double tax = .0825;
+	double rate = 30;
+	double parts;
+	double labor;
+	double repair;
+	int partnum;
+	int NumberOfCustomers = 0;
+	double partcost = 0;
+	int custnum = 1;
+	int error = 0;
+	double finish;
+	int partstart;
+	int P[100];
+	int C[10];
+	int i;
+
+	cout << fixed << setprecision(2);
+
+
+
+	printf("Input number of customers: (1-10)");
+	while (NumberOfCustomers <1)
+	{
+		cin >> NumberOfCustomers;
+		if (NumberOfCustomers < 1 || NumberOfCustomers >10)
+			{
+				error++;
+				cout << "Error # " << error << ". Invalid entry. Enter a value over 0" << endl;
+				if (error == 2)
+				{
+					cout << "Fatal error, come back tomorrow." << endl;
+					return 0;
+				}
+				cin.clear();
+				cin.ignore();
+				NumberOfCustomers = 0;
+			}
+
+	}
+
+	i=0;
+	for (NumberOfCustomers; NumberOfCustomers !=0; NumberOfCustomers--, custnum++, i++) // Loops until all customers have been inputted
+	{
+		cout << "Inputting for customer #" << custnum << "." << endl; // Starting of Customer One's entries
+		printf("Input number of parts (can't be over 5)");
+
+		partnum = 6;
+		while (partnum > 5) //Loops the code until proper entry is applied
+		{
+			partnum = 5;
+			cout << "5" << endl;
+			//cin >> partnum;
+
+			if (partnum > 5 || partnum < 0) //Error checking
+			{
+				error++;
+				cout << "Error # " << error << ". Invalid entry. Enter a value between 5 and 0" << endl;
+				if (error == 2)
+				{
+					cout << "Fatal error, come back tomorrow." << endl;
+					return 0;
+				}
+				cin.clear();
+				cin.ignore();
+				partnum = 6;
+			}
+		}
+
+		partstart = 1;
+		i=0;
+		partcost=0;
+		while (partnum != 0) //Looping code
+		{
+			cout << "Input part # " << partstart << " cost:  $ ";
+			parts = rand() %100;
+			cout << parts << endl;
+			//cin >> parts;
+			if (cin.fail() || parts < 0) //Error checking
+			{
+				error++;
+				if (error == 2)
+				{
+					cout << "Fatal error, come back tomorrow." << endl;
+					return 0;
+				}
+				cout << "Invalid entry. Retry." << endl;
+				cin.clear();
+				cin.ignore();
+			}
+			else
+			{
+				P[i] = parts;
+				partcost = partcost + P[i];
+				partnum--;
+				partstart++;
+			}
+		}
+
+		labor = -1;
+		while (labor < 0) //Looping if error in entry
+		{
+			printf("Input labor minutes: ");
+			labor = 60;
+			cout << "60" << endl;
+			//cin >> labor;
+			if (cin.fail() || labor < 0)
+			{
+				error++;
+				if (error == 2)
+				{
+					cout << "Fatal error, come back tomorrow." << endl;
+					return 0;
+				}
+				cout << "Invalid entry. Enter in labor minutes" << endl;
+				cin.clear();
+				cin.ignore();
+				labor = -1;
+			}
+		}
+		printf("Total cost is:\n");
+		repair = partcost + (labor*rate / 60);
+		if (repair < 95)//Sets cost to 95 if less than 95
+			repair = 95;
+
+		finish = Total(repair, tax);
+
+
+		cout << "$ " << finish << "." << endl << endl;
+
+	}
+	
+	return 0;
+}

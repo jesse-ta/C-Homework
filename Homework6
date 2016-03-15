@@ -15,6 +15,12 @@ double Total(double n1, double n2)
 	return subtotal;
 }
 
+void Error()
+{
+	cout << "Error, enter valid number. ";
+	cin.clear();
+	cin.ignore();
+}
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -32,36 +38,21 @@ int _tmain(int argc, _TCHAR* argv[])
 	int error = 0;
 	double finish;
 	int partstart;
-	int P[100];
-	int C[10];
+	double P[5];
 	int i;
 
 	cout << fixed << setprecision(2);
 
-
-
 	printf("Input number of customers: (1-10)");
-	while (NumberOfCustomers <1)
+	while (NumberOfCustomers < 1)
 	{
 		cin >> NumberOfCustomers;
 		if (NumberOfCustomers < 1 || NumberOfCustomers >10)
-			{
-				error++;
-				cout << "Error # " << error << ". Invalid entry. Enter a value over 0" << endl;
-				if (error == 2)
-				{
-					cout << "Fatal error, come back tomorrow." << endl;
-					return 0;
-				}
-				cin.clear();
-				cin.ignore();
-				NumberOfCustomers = 0;
-			}
-
+			Error();
 	}
 
-	i=0;
-	for (NumberOfCustomers; NumberOfCustomers !=0; NumberOfCustomers--, custnum++, i++) // Loops until all customers have been inputted
+	i = 0;
+	for (NumberOfCustomers; NumberOfCustomers != 0; NumberOfCustomers--, custnum++, i++) // Loops until all customers have been inputted
 	{
 		cout << "Inputting for customer #" << custnum << "." << endl; // Starting of Customer One's entries
 		printf("Input number of parts (can't be over 5)");
@@ -74,41 +65,20 @@ int _tmain(int argc, _TCHAR* argv[])
 			//cin >> partnum;
 
 			if (partnum > 5 || partnum < 0) //Error checking
-			{
-				error++;
-				cout << "Error # " << error << ". Invalid entry. Enter a value between 5 and 0" << endl;
-				if (error == 2)
-				{
-					cout << "Fatal error, come back tomorrow." << endl;
-					return 0;
-				}
-				cin.clear();
-				cin.ignore();
-				partnum = 6;
-			}
+				Error();
 		}
 
 		partstart = 1;
-		i=0;
-		partcost=0;
+		i = 0;
+		partcost = 0;
 		while (partnum != 0) //Looping code
 		{
 			cout << "Input part # " << partstart << " cost:  $ ";
-			parts = rand() %100;
+			parts = rand() % 100;
 			cout << parts << endl;
 			//cin >> parts;
 			if (cin.fail() || parts < 0) //Error checking
-			{
-				error++;
-				if (error == 2)
-				{
-					cout << "Fatal error, come back tomorrow." << endl;
-					return 0;
-				}
-				cout << "Invalid entry. Retry." << endl;
-				cin.clear();
-				cin.ignore();
-			}
+				Error();
 			else
 			{
 				P[i] = parts;
@@ -122,22 +92,11 @@ int _tmain(int argc, _TCHAR* argv[])
 		while (labor < 0) //Looping if error in entry
 		{
 			printf("Input labor minutes: ");
-			labor = 60;
-			cout << "60" << endl;
+			labor = rand() % 180;
+			cout << labor << endl;
 			//cin >> labor;
 			if (cin.fail() || labor < 0)
-			{
-				error++;
-				if (error == 2)
-				{
-					cout << "Fatal error, come back tomorrow." << endl;
-					return 0;
-				}
-				cout << "Invalid entry. Enter in labor minutes" << endl;
-				cin.clear();
-				cin.ignore();
-				labor = -1;
-			}
+				Error();
 		}
 		printf("Total cost is:\n");
 		repair = partcost + (labor*rate / 60);
@@ -146,10 +105,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		finish = Total(repair, tax);
 
-
 		cout << "$ " << finish << "." << endl << endl;
-
 	}
-	
 	return 0;
 }
